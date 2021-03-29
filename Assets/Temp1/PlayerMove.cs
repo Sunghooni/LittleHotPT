@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    //Public Sources
     public Animator animator;
-
+    //Player Input
     private int vert;
     private int horz;
+    //Player Speed
     private int moveSpeed = 2;
     private int motionChangeSpeed = 2;
 
