@@ -16,8 +16,9 @@ public class PlayerMove : MonoBehaviour
         vert = int.Parse(Input.GetAxisRaw("Vertical").ToString());
         horz = int.Parse(Input.GetAxisRaw("Horizontal").ToString());
 
-        ThrowMotion();
         AimWalkMotion();
+        ThrowMotion();
+        HitMotion();
     }
 
     public void FixedUpdate()
@@ -54,6 +55,27 @@ public class PlayerMove : MonoBehaviour
         else
         {
             animator.SetBool("Throw", false);
+        }
+    }
+
+    private void HitMotion()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            animator.SetBool("Hit1", true);
+        }
+        else
+        {
+            animator.SetBool("Hit1", false);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            animator.SetBool("Hit2", true);
+        }
+        else
+        {
+            animator.SetBool("Hit2", false);
         }
     }
 }
