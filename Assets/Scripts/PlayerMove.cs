@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -9,11 +8,11 @@ public class PlayerMove : MonoBehaviour
     private int vert;
     private int horz;
     private float mouseX;
-    private float mouseY;
 
-    [SerializeField] private int moveSpeed = 2;
-    [SerializeField] private int rotSpeed = 2;
-    [SerializeField] private int motionChangeSpeed = 2;
+    private int moveSpeed = 2;
+    private int rotSpeed = 2;
+    private int motionChangeSpeed = 2;
+
     [SerializeField] private bool isActing = false;
     [SerializeField] private bool isHolding = false;
 
@@ -24,6 +23,7 @@ public class PlayerMove : MonoBehaviour
         AimWalkMotion();
         ThrowMotion();
         HitMotion();
+        CheckActing();
     }
 
     public void FixedUpdate()
@@ -37,7 +37,6 @@ public class PlayerMove : MonoBehaviour
         vert = int.Parse(Input.GetAxisRaw("Vertical").ToString());
         horz = int.Parse(Input.GetAxisRaw("Horizontal").ToString());
         mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
     }
 
     private void MovePlayer()
@@ -45,7 +44,7 @@ public class PlayerMove : MonoBehaviour
         int vertSpeed = vert * moveSpeed;
         int horzSpeed = horz * moveSpeed;
 
-        if (isActing == false)
+        if (!isActing)
         {
             gameObject.transform.Translate(Vector3.forward * Time.deltaTime * vertSpeed);
             gameObject.transform.Translate(Vector3.right * Time.deltaTime * horzSpeed);
@@ -54,8 +53,10 @@ public class PlayerMove : MonoBehaviour
 
     private void RotatePlayer()
     {
-        gameObject.transform.Rotate(Vector3.up * rotSpeed * mouseX);
-        //gameObject.transform.Rotate(Vector3.right * rotSpeed * mouseY);
+        if (!isActing)
+        {
+            gameObject.transform.Rotate(Vector3.up * rotSpeed * mouseX);
+        }
     }
 
     private void WalkMotion()
@@ -92,11 +93,9 @@ public class PlayerMove : MonoBehaviour
 
     private void ThrowMotion()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isActing == false)
+        if (Input.GetKeyDown(KeyCode.Space) && !isActing)
         {
-            isActing = true;
             animator.SetBool("Throw", true);
-            StartCoroutine(CheckMotionFinish("Throw"));
         }
         else
         {
@@ -108,11 +107,9 @@ public class PlayerMove : MonoBehaviour
     {
         string hitType = Random.Range(0, 2) == 0 ? "Hit1" : "Hit2";
 
-        if (Input.GetMouseButtonDown(0) && isActing == false)
+        if (Input.GetMouseButtonDown(0) && !isActing)
         {
-            isActing = true;
             animator.SetBool(hitType, true);
-            StartCoroutine(CheckMotionFinish(hitType));
         }
         else
         {
@@ -120,21 +117,15 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    IEnumerator CheckMotionFinish(string motionName)
+    private void CheckActing()
     {
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(motionName))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Act"))
         {
-            yield return null;
+            isActing = true;
         }
-
-        while (true)
+        else if(animator.GetCurrentAnimatorStateInfo(0).IsTag("Motion"))
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-            {
-                isActing = false;
-                break;
-            }
-            yield return new WaitForFixedUpdate();
+            isActing = false;
         }
     }
 }
