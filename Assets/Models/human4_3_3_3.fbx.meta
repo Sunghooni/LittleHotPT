@@ -5,25 +5,25 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 1936765804338403011
-    second: rig|Hit1
+    second: Hit1
   - first:
       74: -4105289411224332693
-    second: rig|Hit2
+    second: Hit2
   - first:
       74: -7361427651036151181
-    second: rig|Idle
+    second: Idle
   - first:
       74: -7220931128735079869
-    second: rig|Shot
+    second: Shot
   - first:
       74: 6757694469405918461
-    second: rig|Throw
+    second: Throw
   - first:
       74: 1023992570608409904
-    second: rig|Walk
+    second: Walk
   - first:
       74: 8981525031771842375
-    second: rig|WalkAim
+    second: WalkAim
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -53,7 +53,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: rig|Hit1
+      name: Hit1
       takeName: rig|Hit1
       internalID: 0
       firstFrame: 0
@@ -82,7 +82,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|Hit2
+      name: Hit2
       takeName: rig|Hit2
       internalID: 0
       firstFrame: 0
@@ -111,7 +111,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|Idle
+      name: Idle
       takeName: rig|Idle
       internalID: 0
       firstFrame: 0
@@ -140,7 +140,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|Shot
+      name: Shot
       takeName: rig|Shot
       internalID: 0
       firstFrame: 0
@@ -169,7 +169,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|Throw
+      name: Throw
       takeName: rig|Throw
       internalID: 0
       firstFrame: 0
@@ -198,7 +198,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|Walk
+      name: Walk
       takeName: rig|Walk
       internalID: 0
       firstFrame: 0
@@ -227,7 +227,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|WalkAim
+      name: WalkAim
       takeName: rig|WalkAim
       internalID: 0
       firstFrame: 0
@@ -309,7 +309,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.00025
+    globalScale: 0.025
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
