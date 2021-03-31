@@ -13,8 +13,8 @@ public class PlayerMove : MonoBehaviour
     private int rotSpeed = 2;
     private int motionChangeSpeed = 2;
 
-    [SerializeField] private bool isActing = false;
-    [SerializeField] private bool isHolding = false;
+    public bool isActing = false;
+    public bool isHolding = false;
 
     public void Update()
     {
@@ -77,6 +77,7 @@ public class PlayerMove : MonoBehaviour
     private void AimWalkMotion()
     {
         float progress = animator.GetFloat("AimWalk");
+        animator.SetBool("Holding", isHolding);
 
         if (isHolding == true)
         {

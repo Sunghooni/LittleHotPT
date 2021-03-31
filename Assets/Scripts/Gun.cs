@@ -7,25 +7,15 @@ public class Gun : MonoBehaviour
     public GameObject player;
     public GameObject playerHand;
 
+    public bool isHolded = false;
     private float fixedRotY = -90;
-
-    private void Start()
-    {
-        HoldedToHand();
-    }
 
     private void FixedUpdate()
     {
-        HoldingToHand();
-    }
-
-    private void HoldingToHand()
-    {
-        Vector3 playerRot = player.transform.eulerAngles;
-        Vector3 gunRot = gameObject.transform.eulerAngles;
-
-        gameObject.transform.position = playerHand.transform.position;
-        gameObject.transform.eulerAngles = new Vector3(gunRot.x, playerRot.y + fixedRotY, gunRot.z);
+        if(isHolded)
+        {
+            HoldingToHand();
+        }
     }
 
     public void HoldedToHand()
@@ -45,5 +35,17 @@ public class Gun : MonoBehaviour
             gameObject.transform.position = Vector3.Slerp(originPos, toPos, timer);
             yield return new WaitForFixedUpdate();
         }
+
+        isHolded = true;
+        player.GetComponent<PlayerMove>().isHolding = true;
+    }
+
+    private void HoldingToHand()
+    {
+        Vector3 playerRot = player.transform.eulerAngles;
+        Vector3 gunRot = gameObject.transform.eulerAngles;
+
+        gameObject.transform.position = playerHand.transform.position;
+        gameObject.transform.eulerAngles = new Vector3(gunRot.x, playerRot.y + fixedRotY, gunRot.z);
     }
 }
