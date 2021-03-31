@@ -21,12 +21,11 @@ public class Gun : MonoBehaviour
 
     private void HoldingToHand()
     {
-        var handAngle = playerHand.transform.TransformDirection(playerHand.transform.eulerAngles);
-        var rotY = fixedRotY + player.transform.eulerAngles.y;
+        Vector3 playerRot = player.transform.eulerAngles;
+        Vector3 gunRot = gameObject.transform.eulerAngles;
 
         gameObject.transform.position = playerHand.transform.position;
-        gameObject.transform.eulerAngles = handAngle;
-        //gameObject.transform.eulerAngles = new Vector3(handAngle.x, rotY, handAngle.z);
+        gameObject.transform.eulerAngles = new Vector3(gunRot.x, playerRot.y + fixedRotY, gunRot.z);
     }
 
     public void HoldedToHand()
@@ -38,11 +37,10 @@ public class Gun : MonoBehaviour
     {
         float timer = 0;
         Vector3 originPos = gameObject.transform.position;
-        Vector3 toPos = playerHand.transform.position;
-
-        while(timer <= 1f)
+        
+        while (timer <= 1f)
         {
-            toPos = playerHand.transform.position;
+            Vector3 toPos = playerHand.transform.position;
             timer += Time.deltaTime;
             gameObject.transform.position = Vector3.Slerp(originPos, toPos, timer);
             yield return new WaitForFixedUpdate();
