@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class CameraCtrl : MonoBehaviour
 {
-    
+    public void HitMotionView()
+    {
+        
+    }
 }

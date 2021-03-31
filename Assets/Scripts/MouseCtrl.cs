@@ -14,23 +14,6 @@ public class MouseCtrl : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100f))
-            {
-                if (hit.transform.tag.Equals("gun") && !hit.transform.GetComponent<Gun>().isHolded)
-                {
-                    hit.transform.GetComponent<Gun>().HoldedToHand();
-                }
-            }
-        }
-    }
-
     public GameObject ShotRay()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);

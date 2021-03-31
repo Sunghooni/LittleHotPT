@@ -107,12 +107,17 @@ public class PlayerMove : MonoBehaviour
 
     private void LeftMouseBtnClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isActing)
         {
             if (!GrabGun())
             {
                 HitMotion();
             }
+        }
+        else
+        {
+            animator.SetBool("Hit1", false);
+            animator.SetBool("Hit2", false);
         }
     }
 
@@ -132,13 +137,9 @@ public class PlayerMove : MonoBehaviour
     {
         string hitType = Random.Range(0, 2) == 0 ? "Hit1" : "Hit2";
 
-        if (!isActing && !isHolding)
+        if (!isHolding)
         {
             animator.SetBool(hitType, true);
-        }
-        else
-        {
-            animator.SetBool(hitType, false);
         }
     }
 
