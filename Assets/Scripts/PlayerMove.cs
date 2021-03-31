@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public MouseCtrl mouseCtrl;
     public Animator animator;
 
     private int vert;
@@ -22,7 +23,7 @@ public class PlayerMove : MonoBehaviour
         WalkMotion();
         AimWalkMotion();
         ThrowMotion();
-        HitMotion();
+        LeftMouseBtnClick();
         CheckActing();
     }
 
@@ -94,7 +95,7 @@ public class PlayerMove : MonoBehaviour
 
     private void ThrowMotion()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isActing)
+        if (Input.GetMouseButtonDown(1) && !isActing)
         {
             animator.SetBool("Throw", true);
         }
@@ -104,11 +105,34 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private void LeftMouseBtnClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!GrabGun())
+            {
+                HitMotion();
+            }
+        }
+    }
+
+    private bool GrabGun()
+    {
+        if (!isHolding)
+        {
+            if (mouseCtrl.ShotRay() != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void HitMotion()
     {
         string hitType = Random.Range(0, 2) == 0 ? "Hit1" : "Hit2";
 
-        if (Input.GetMouseButtonDown(0) && !isActing)
+        if (!isActing && !isHolding)
         {
             animator.SetBool(hitType, true);
         }

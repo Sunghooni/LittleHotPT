@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MouseCtrl : MonoBehaviour
 {
+    public PlayerMove playerMove;
     private Camera mainCamera;
 
     private void Awake()
@@ -28,5 +29,22 @@ public class MouseCtrl : MonoBehaviour
                 }
             }
         }
+    }
+
+    public GameObject ShotRay()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            if (hit.transform.tag.Equals("gun") && !hit.transform.GetComponent<Gun>().isHolded)
+            {
+                hit.transform.GetComponent<Gun>().HoldedToHand();
+                return hit.transform.gameObject;
+            }
+        }
+
+        return null;
     }
 }

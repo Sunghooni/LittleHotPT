@@ -27,25 +27,26 @@ public class Gun : MonoBehaviour
     {
         float timer = 0;
         Vector3 originPos = gameObject.transform.position;
-        
+        player.GetComponent<PlayerMove>().isHolding = true;
+
+        yield return new WaitForSeconds(0.3f);
+
         while (timer <= 1f)
         {
             Vector3 toPos = playerHand.transform.position;
-            timer += Time.deltaTime;
-            gameObject.transform.position = Vector3.Slerp(originPos, toPos, timer);
+            timer += Time.deltaTime * 2;
+            gameObject.transform.position = Vector3.Lerp(originPos, toPos, timer);
             yield return new WaitForFixedUpdate();
         }
 
         isHolded = true;
-        player.GetComponent<PlayerMove>().isHolding = true;
     }
 
     private void HoldingToHand()
     {
         Vector3 playerRot = player.transform.eulerAngles;
-        Vector3 gunRot = gameObject.transform.eulerAngles;
 
         gameObject.transform.position = playerHand.transform.position;
-        gameObject.transform.eulerAngles = new Vector3(gunRot.x, playerRot.y + fixedRotY, gunRot.z);
+        gameObject.transform.eulerAngles = new Vector3(0, playerRot.y + fixedRotY, 0);
     }
 }

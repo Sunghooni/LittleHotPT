@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662c0231ee344fb4191fab2329b7f223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMove: {fileID: 919132149069994606}
 --- !u!1 &454391155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6569,6 +6570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c10c172ba5b4ca4cb54b5643414259b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseCtrl: {fileID: 161035641}
   animator: {fileID: 919132149069994605}
   isActing: 0
   isHolding: 0
