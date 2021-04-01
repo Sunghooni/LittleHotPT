@@ -9,7 +9,6 @@ public class Gun : MonoBehaviour
     public bool isHolded = false;
 
     private float fixedRotY = -90;
-    private Animation animation;
 
     private void FixedUpdate()
     {
@@ -84,5 +83,11 @@ public class Gun : MonoBehaviour
         }
 
         player.GetComponent<PlayerMove>().animator.SetBool("Shot", false);
+    }
+
+    public void ThrowGun()
+    {
+        player.GetComponent<PlayerMove>().isHolding = false;
+        player.GetComponent<PlayerMove>().holdingObj = null;
     }
 }

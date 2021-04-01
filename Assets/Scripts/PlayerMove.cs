@@ -163,7 +163,14 @@ public class PlayerMove : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Act"))
         {
-            isActing = true;
+            if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1)
+            {
+                isActing = true;
+            }
+            else
+            {
+                isActing = false;
+            }
         }
         else if(animator.GetCurrentAnimatorStateInfo(0).IsTag("Motion"))
         {
