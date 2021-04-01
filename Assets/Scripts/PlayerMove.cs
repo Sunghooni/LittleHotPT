@@ -14,17 +14,18 @@ public class PlayerMove : MonoBehaviour
     private int rotSpeed = 2;
     private int motionChangeSpeed = 2;
 
+    public GameObject holdingObj;
     public bool isActing = false;
     public bool isHolding = false;
 
     public void Update()
     {
+        CheckActing();
         GetInput();
         WalkMotion();
         AimWalkMotion();
         ThrowMotion();
         LeftMouseBtnClick();
-        CheckActing();
     }
 
     public void FixedUpdate()
@@ -37,7 +38,7 @@ public class PlayerMove : MonoBehaviour
     {
         vert = int.Parse(Input.GetAxisRaw("Vertical").ToString());
         horz = int.Parse(Input.GetAxisRaw("Horizontal").ToString());
-        mouseX = Input.GetAxis("Mouse X");
+        mouseX = Input.GetAxisRaw("Mouse X");
     }
 
     private void MovePlayer()
@@ -112,6 +113,7 @@ public class PlayerMove : MonoBehaviour
             if (!GrabGun())
             {
                 HitMotion();
+                ShotGunMotion();
             }
         }
         else
@@ -125,7 +127,9 @@ public class PlayerMove : MonoBehaviour
     {
         if (!isHolding)
         {
-            if (mouseCtrl.ShotRay() != null)
+            holdingObj = mouseCtrl.ShotRay();
+
+            if (holdingObj != null)
             {
                 return true;
             }
@@ -140,6 +144,18 @@ public class PlayerMove : MonoBehaviour
         if (!isHolding)
         {
             animator.SetBool(hitType, true);
+        }
+    }
+
+    private void ShotGunMotion()
+    {
+        if (holdingObj != null && !isActing)
+        {
+            if (holdingObj.tag.Equals("gun"))
+            {
+                animator.SetBool("Shot", true);
+                holdingObj.GetComponent<Gun>().ShotGun();
+            }
         }
     }
 

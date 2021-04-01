@@ -9,8 +9,7 @@ public class Gun : MonoBehaviour
     public bool isHolded = false;
 
     private float fixedRotY = -90;
-    private float upRotX = 0;
-    private float downRotX = 0;
+    private Animation animation;
 
     private void FixedUpdate()
     {
@@ -60,6 +59,30 @@ public class Gun : MonoBehaviour
 
     public void ShotGun()
     {
-        //Unity Animation 만들어서 실행
+        StartCoroutine(ShotMotion());
+    }
+
+    IEnumerator ShotMotion()
+    {
+        float timer = 0;
+        bool isUp = true;
+
+        while (timer >= 0)
+        {
+            Vector3 downAngle = new Vector3(0, player.transform.eulerAngles.y + fixedRotY, 0);
+            Vector3 upAngle = downAngle + Vector3.forward * 10;
+
+            if (timer > 1)
+            {
+                isUp = false;
+            }
+            
+            timer += isUp ? Time.deltaTime * 3 : -Time.deltaTime * 3;
+            gameObject.transform.eulerAngles = Vector3.Lerp(downAngle, upAngle, timer);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        player.GetComponent<PlayerMove>().animator.SetBool("Shot", false);
     }
 }
