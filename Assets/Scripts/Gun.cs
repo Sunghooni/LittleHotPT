@@ -7,6 +7,7 @@ public class Gun : MonoBehaviour
     public GameObject player;
     public GameObject playerHand;
     public bool isHolded = false;
+    public bool isThrowing = false;
 
     private float fixedRotY = -90;
 
@@ -29,6 +30,7 @@ public class Gun : MonoBehaviour
         Vector3 originPos = gameObject.transform.position;
         Vector3 originRot = gameObject.transform.eulerAngles;
 
+        gameObject.GetComponent<Rigidbody>().useGravity = false;
         player.GetComponent<PlayerMove>().isHolding = true;
         yield return new WaitForSeconds(0.3f);
 
@@ -85,9 +87,33 @@ public class Gun : MonoBehaviour
         player.GetComponent<PlayerMove>().animator.SetBool("Shot", false);
     }
 
-    public void ThrowGun()
+    public void ThrowMotion()
     {
+        StartCoroutine(Throwing());
+    }
+
+    IEnumerator Throwing()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        isHolded = false;
+        isThrowing = true;
         player.GetComponent<PlayerMove>().isHolding = false;
         player.GetComponent<PlayerMove>().holdingObj = null;
+
+        float timer = 0;
+
+        while (timer < 1)
+        {
+            timer += Time.deltaTime;
+            transform.Translate(new Vector3(1, 0, 0) * 5f * Time.deltaTime);
+
+            if(timer > 0.35f)
+            {
+                gameObject.GetComponent<Rigidbody>().useGravity = true;
+            }
+            
+            yield return new WaitForFixedUpdate();
+        }
     }
 }

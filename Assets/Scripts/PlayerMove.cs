@@ -99,6 +99,11 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !isActing)
         {
             animator.SetBool("Throw", true);
+            
+            if(holdingObj != null && holdingObj.tag.Equals("gun"))
+            {
+                holdingObj.GetComponent<Gun>().ThrowMotion();
+            }
         }
         else
         {

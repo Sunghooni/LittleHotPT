@@ -42,7 +42,5 @@ public class CameraCtrl : MonoBehaviour
 
         CameraX += -mouseY * rotSpeed;
         gameObject.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
-
-        Debug.Log(CameraX);
     }
 }
