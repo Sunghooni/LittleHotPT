@@ -89,31 +89,26 @@ public class Gun : MonoBehaviour
 
     public void ThrowMotion()
     {
-        StartCoroutine(Throwing());
+        Invoke("Throwing", 0.5f);
     }
 
-    IEnumerator Throwing()
+    private void Throwing()
     {
-        yield return new WaitForSeconds(0.5f);
-
         isHolded = false;
         isThrowing = true;
         player.GetComponent<PlayerMove>().isHolding = false;
         player.GetComponent<PlayerMove>().holdingObj = null;
 
-        float timer = 0;
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        gameObject.GetComponent<Rigidbody>().AddForce(Vector3.forward * 20, ForceMode.Impulse);
+    }
 
-        while (timer < 1)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isThrowing)
         {
-            timer += Time.deltaTime;
-            transform.Translate(new Vector3(1, 0, 0) * 5f * Time.deltaTime);
-
-            if(timer > 0.35f)
-            {
-                gameObject.GetComponent<Rigidbody>().useGravity = true;
-            }
-            
-            yield return new WaitForFixedUpdate();
+            gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, 0) * 100);
+            isThrowing = false;
         }
     }
 }
