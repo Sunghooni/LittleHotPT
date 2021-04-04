@@ -70,13 +70,13 @@ public class Gun : MonoBehaviour
 
         while (timer >= 0)
         {
-            Vector3 downAngle = new Vector3(0, player.transform.eulerAngles.y + fixedRotY, 0);
-            Vector3 upAngle = downAngle + Vector3.forward * 10;
-
             if (timer > 1)
             {
                 isUp = false;
             }
+
+            Vector3 downAngle = new Vector3(0, player.transform.eulerAngles.y + fixedRotY, 0);
+            Vector3 upAngle = downAngle + Vector3.forward * 10;
             
             timer += isUp ? Time.deltaTime * 3 : -Time.deltaTime * 3;
             gameObject.transform.eulerAngles = Vector3.Lerp(downAngle, upAngle, timer);

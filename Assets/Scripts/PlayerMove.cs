@@ -46,19 +46,13 @@ public class PlayerMove : MonoBehaviour
         int vertSpeed = vert * moveSpeed;
         int horzSpeed = horz * moveSpeed;
 
-        if (!isActing)
-        {
-            gameObject.transform.Translate(Vector3.forward * Time.deltaTime * vertSpeed);
-            gameObject.transform.Translate(Vector3.right * Time.deltaTime * horzSpeed);
-        }
+        gameObject.transform.Translate(Vector3.forward * Time.deltaTime * vertSpeed);
+        gameObject.transform.Translate(Vector3.right * Time.deltaTime * horzSpeed);
     }
 
     private void RotatePlayer()
     {
-        if (!isActing)
-        {
-            gameObject.transform.Rotate(Vector3.up * rotSpeed * mouseX);
-        }
+        gameObject.transform.Rotate(Vector3.up * rotSpeed * mouseX);
     }
 
     private void WalkMotion()
@@ -96,11 +90,11 @@ public class PlayerMove : MonoBehaviour
 
     private void ThrowMotion()
     {
-        if (Input.GetMouseButtonDown(1) && !isActing)
+        if (Input.GetMouseButtonDown(1))
         {
             animator.SetBool("Throw", true);
             
-            if(holdingObj != null && holdingObj.tag.Equals("gun"))
+            if(holdingObj != null && holdingObj.CompareTag("gun"))
             {
                 holdingObj.GetComponent<Gun>().ThrowMotion();
             }
@@ -113,7 +107,7 @@ public class PlayerMove : MonoBehaviour
 
     private void LeftMouseBtnClick()
     {
-        if (Input.GetMouseButtonDown(0) && !isActing)
+        if (Input.GetMouseButtonDown(0))
         {
             if (!GrabGun())
             {
@@ -154,9 +148,9 @@ public class PlayerMove : MonoBehaviour
 
     private void ShotGunMotion()
     {
-        if (holdingObj != null && !isActing)
+        if (holdingObj != null)
         {
-            if (holdingObj.tag.Equals("gun"))
+            if (holdingObj.CompareTag("gun") && !isActing)
             {
                 animator.SetBool("Shot", true);
                 holdingObj.GetComponent<Gun>().ShotGun();
