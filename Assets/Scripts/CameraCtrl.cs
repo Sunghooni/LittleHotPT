@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraCtrl : MonoBehaviour
 {
-    public GameObject Player;
     private float mouseY;
     private float rotSpeed = 2;
     private float cameraX = 0;
@@ -42,9 +41,6 @@ public class CameraCtrl : MonoBehaviour
         var cameraRot = gameObject.transform.eulerAngles;
         CameraX += -mouseY * rotSpeed;
 
-        if (!Player.GetComponent<PlayerMove>().isActing)
-        {
-            gameObject.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
-        }
+        gameObject.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
     }
 }

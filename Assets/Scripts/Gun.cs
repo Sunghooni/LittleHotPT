@@ -100,14 +100,13 @@ public class Gun : MonoBehaviour
         player.GetComponent<PlayerMove>().holdingObj = null;
 
         gameObject.GetComponent<Rigidbody>().useGravity = true;
-        gameObject.GetComponent<Rigidbody>().AddForce(Vector3.forward * 20, ForceMode.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddForce(transform.right * 10, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (isThrowing)
         {
-            gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, 0) * 100);
             isThrowing = false;
         }
     }

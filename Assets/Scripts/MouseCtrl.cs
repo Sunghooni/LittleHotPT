@@ -21,7 +21,7 @@ public class MouseCtrl : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100f))
         {
-            if (hit.transform.tag.Equals("gun") && !hit.transform.GetComponent<Gun>().isHolded)
+            if (hit.transform.CompareTag("gun") && !hit.transform.GetComponent<Gun>().isHolded)
             {
                 hit.transform.GetComponent<Gun>().HoldedToHand();
                 return hit.transform.gameObject;
