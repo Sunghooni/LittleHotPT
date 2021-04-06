@@ -5,6 +5,9 @@ public class PlayerMove : MonoBehaviour
 {
     public MouseCtrl mouseCtrl;
     public Animator animator;
+    public GameObject holdingObj;
+    public bool isActing = false;
+    public bool isHolding = false;
 
     private int vert;
     private int horz;
@@ -12,11 +15,7 @@ public class PlayerMove : MonoBehaviour
 
     private const int moveSpeed = 2;
     private const int rotSpeed = 2;
-    private const int motionChangeSpeed = 2;
-
-    public GameObject holdingObj;
-    public bool isActing = false;
-    public bool isHolding = false;
+    private const int motionChangeSpeed = 3;
 
     public void Update()
     {
@@ -94,7 +93,7 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("Throw", true);
             
-            if (holdingObj.TryGetComponent(out Gun gun)) //총을 들고 있을 경우 실행
+            if (holdingObj.TryGetComponent(out Gun gun) && !isActing) //총을 들고 있을 경우 실행
             {
                 gun.ThrowMotion();
             }

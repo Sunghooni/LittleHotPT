@@ -80,8 +80,6 @@ public class Gun : MonoBehaviour
         float motionSpeed = 3;
         float timer = 0;
         bool isUp = true;
-        Vector3 downAngle;
-        Vector3 upAngle;
 
         while (timer >= 0)
         {
@@ -90,8 +88,8 @@ public class Gun : MonoBehaviour
                 isUp = false;
             }
 
-            downAngle = new Vector3(0, playerTr.eulerAngles.y + fixedRotY, 0);
-            upAngle = downAngle + Vector3.forward * 10;
+            Vector3 downAngle = new Vector3(0, playerTr.eulerAngles.y + fixedRotY, 0);
+            Vector3 upAngle = downAngle + Vector3.forward * 10;
 
             timer += (isUp ? Time.deltaTime : -Time.deltaTime) * motionSpeed;
             tr.eulerAngles = Vector3.Lerp(downAngle, upAngle, timer);

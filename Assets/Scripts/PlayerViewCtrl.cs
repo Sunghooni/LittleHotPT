@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraCtrl : MonoBehaviour
+public class PlayerViewCtrl : MonoBehaviour
 {
+    public GameObject Player;
+    public Animator animator;
+
     private float mouseY;
     private float cameraX = 0;
     private const float rotSpeed = 2;
@@ -37,6 +40,11 @@ public class CameraCtrl : MonoBehaviour
     }
 
     private void FixedUpdate()
+    {
+        CameraMove();
+    }
+
+    private void CameraMove()
     {
         var cameraRot = gameObject.transform.eulerAngles;
         CameraX += -mouseY * rotSpeed;
