@@ -9,7 +9,19 @@ public class Gun : MonoBehaviour
     public bool isHolded = false;
     public bool isThrowing = false;
 
-    private float fixedRotY = -90;
+    private Transform tr;
+    private Rigidbody rb;
+    private Transform playerTr;
+    private PlayerMove _playerMove;
+    private const float fixedRotY = -90;
+
+    private void Awake()
+    {
+        tr = gameObject.GetComponent<Transform>();
+        rb = gameObject.GetComponent<Rigidbody>();
+        playerTr = player.GetComponent<Transform>();
+        _playerMove = player.GetComponent<PlayerMove>();
+    }
 
     private void FixedUpdate()
     {
@@ -27,11 +39,11 @@ public class Gun : MonoBehaviour
     IEnumerator MoveToPos()
     {
         float timer = 0;
-        Vector3 originPos = gameObject.transform.position;
-        Vector3 originRot = gameObject.transform.eulerAngles;
+        Vector3 originPos = tr.position;
+        Vector3 originRot = tr.eulerAngles;
 
-        gameObject.GetComponent<Rigidbody>().useGravity = false;
-        player.GetComponent<PlayerMove>().isHolding = true;
+        rb.useGravity = false;
+        _playerMove.isHolding = true;
         yield return new WaitForSeconds(0.3f);
 
         while (timer <= 1f)
@@ -39,10 +51,10 @@ public class Gun : MonoBehaviour
             timer += Time.deltaTime * 2;
 
             Vector3 toPos = playerHand.transform.position;
-            Vector3 toRot = new Vector3(0, player.transform.eulerAngles.y + fixedRotY, 0);
+            Vector3 toRot = new Vector3(0, playerTr.eulerAngles.y + fixedRotY, 0);
 
-            gameObject.transform.position = Vector3.Lerp(originPos, toPos, timer);
-            gameObject.transform.eulerAngles = Vector3.Lerp(originRot, toRot, timer);
+            tr.position = Vector3.Lerp(originPos, toPos, timer);
+            tr.eulerAngles = Vector3.Lerp(originRot, toRot, timer);
 
             yield return new WaitForFixedUpdate();
         }
@@ -52,10 +64,10 @@ public class Gun : MonoBehaviour
 
     private void HoldingToHand()
     {
-        Vector3 playerRot = player.transform.eulerAngles;
+        Vector3 playerRot = playerTr.eulerAngles;
 
-        gameObject.transform.position = playerHand.transform.position;
-        gameObject.transform.eulerAngles = new Vector3(0, playerRot.y + fixedRotY, 0);
+        tr.position = playerHand.transform.position;
+        tr.eulerAngles = new Vector3(0, playerRot.y + fixedRotY, 0);
     }
 
     public void ShotGun()
@@ -65,8 +77,11 @@ public class Gun : MonoBehaviour
 
     IEnumerator ShotMotion()
     {
+        float motionSpeed = 3;
         float timer = 0;
         bool isUp = true;
+        Vector3 downAngle;
+        Vector3 upAngle;
 
         while (timer >= 0)
         {
@@ -75,32 +90,32 @@ public class Gun : MonoBehaviour
                 isUp = false;
             }
 
-            Vector3 downAngle = new Vector3(0, player.transform.eulerAngles.y + fixedRotY, 0);
-            Vector3 upAngle = downAngle + Vector3.forward * 10;
-            
-            timer += isUp ? Time.deltaTime * 3 : -Time.deltaTime * 3;
-            gameObject.transform.eulerAngles = Vector3.Lerp(downAngle, upAngle, timer);
+            downAngle = new Vector3(0, playerTr.eulerAngles.y + fixedRotY, 0);
+            upAngle = downAngle + Vector3.forward * 10;
+
+            timer += (isUp ? Time.deltaTime : -Time.deltaTime) * motionSpeed;
+            tr.eulerAngles = Vector3.Lerp(downAngle, upAngle, timer);
 
             yield return new WaitForFixedUpdate();
         }
 
-        player.GetComponent<PlayerMove>().animator.SetBool("Shot", false);
+        _playerMove.animator.SetBool("Shot", false);
     }
 
     public void ThrowMotion()
     {
-        Invoke("Throwing", 0.5f);
+        Invoke(nameof(Throwing), 0.5f);
     }
 
     private void Throwing()
     {
         isHolded = false;
         isThrowing = true;
-        player.GetComponent<PlayerMove>().isHolding = false;
-        player.GetComponent<PlayerMove>().holdingObj = null;
+        _playerMove.isHolding = false;
+        _playerMove.holdingObj = null;
 
-        gameObject.GetComponent<Rigidbody>().useGravity = true;
-        gameObject.GetComponent<Rigidbody>().AddForce(transform.right * 10, ForceMode.Impulse);
+        rb.useGravity = true;
+        rb.AddForce(transform.right * 10, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)

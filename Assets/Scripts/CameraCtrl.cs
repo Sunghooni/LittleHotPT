@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraCtrl : MonoBehaviour
 {
     private float mouseY;
-    private float rotSpeed = 2;
     private float cameraX = 0;
+    private const float rotSpeed = 2;
 
     public float CameraX
     {

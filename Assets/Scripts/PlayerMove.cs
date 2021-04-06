@@ -10,9 +10,9 @@ public class PlayerMove : MonoBehaviour
     private int horz;
     private float mouseX;
 
-    private int moveSpeed = 2;
-    private int rotSpeed = 2;
-    private int motionChangeSpeed = 2;
+    private const int moveSpeed = 2;
+    private const int rotSpeed = 2;
+    private const int motionChangeSpeed = 2;
 
     public GameObject holdingObj;
     public bool isActing = false;
@@ -90,13 +90,13 @@ public class PlayerMove : MonoBehaviour
 
     private void ThrowMotion()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && holdingObj != null)
         {
             animator.SetBool("Throw", true);
             
-            if(holdingObj != null && holdingObj.CompareTag("gun"))
+            if (holdingObj.TryGetComponent(out Gun gun)) //총을 들고 있을 경우 실행
             {
-                holdingObj.GetComponent<Gun>().ThrowMotion();
+                gun.ThrowMotion();
             }
         }
         else
@@ -148,12 +148,12 @@ public class PlayerMove : MonoBehaviour
 
     private void ShotGunMotion()
     {
-        if (holdingObj != null)
+        if (!isActing && holdingObj != null)
         {
-            if (holdingObj.CompareTag("gun") && !isActing)
+            if (holdingObj.TryGetComponent(out Gun gun))
             {
                 animator.SetBool("Shot", true);
-                holdingObj.GetComponent<Gun>().ShotGun();
+                gun.ShotGun();
             }
         }
     }

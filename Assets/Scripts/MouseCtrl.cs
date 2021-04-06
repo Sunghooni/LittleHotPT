@@ -17,13 +17,12 @@ public class MouseCtrl : MonoBehaviour
     public GameObject ShotRay()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
-            if (hit.transform.CompareTag("gun") && !hit.transform.GetComponent<Gun>().isHolded)
+            if (hit.transform.TryGetComponent(out Gun gun))
             {
-                hit.transform.GetComponent<Gun>().HoldedToHand();
+                gun.HoldedToHand();
                 return hit.transform.gameObject;
             }
         }
