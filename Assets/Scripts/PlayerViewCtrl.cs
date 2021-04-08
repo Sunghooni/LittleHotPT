@@ -22,7 +22,7 @@ public class PlayerViewCtrl : MonoBehaviour
             {
                 cameraX = 30;
             }
-            else if(cameraX < 330 && cameraX > 180)
+            else if (cameraX < 330 && cameraX > 180)
             {
                 cameraX = 330;
             }
@@ -51,4 +51,6 @@ public class PlayerViewCtrl : MonoBehaviour
 
         gameObject.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
     }
+
+    
 }
