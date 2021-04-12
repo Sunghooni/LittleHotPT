@@ -5,6 +5,8 @@ using UnityEngine;
 public class AvatarTester : MonoBehaviour
 {
     private Animator animator;
+    private float timer = 0;
+    private float progress;
 
     private void Start()
     {
@@ -13,12 +15,15 @@ public class AvatarTester : MonoBehaviour
 
     void OnAnimatorIK(int layerIndex)
     {
-        //Hand, Foot : AvatarIKGoal.Part
-        //Elbow, Etc : AvatarIKHint.Part
-        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
-        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
+        Debug.Log(timer);
+        
+        timer += Input.GetAxisRaw("Mouse Y");
+        timer = timer < 3 ? timer : 3;
+        timer = timer > -8 ? timer : -8;
 
-        Vector3 handPosition = new Vector3(0, 0, 1);
-        animator.SetIKPosition(AvatarIKGoal.RightHand, handPosition);
+        progress = timer * 0.02f;
+        Vector3 toPos = animator.GetIKPosition(AvatarIKGoal.RightHand);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, toPos + Vector3.up * progress);
     }
 }
