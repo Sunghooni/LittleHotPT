@@ -50,7 +50,5 @@ public class PlayerViewCtrl : MonoBehaviour
         CameraX += -mouseY * rotSpeed;
 
         gameObject.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
-    }
-
-    
+    } 
 }

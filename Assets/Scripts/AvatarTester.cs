@@ -4,26 +4,23 @@ using UnityEngine;
 
 public class AvatarTester : MonoBehaviour
 {
+    public GameObject Camera;
+    public Transform handPos;
     private Animator animator;
-    private float timer = 0;
-    private float progress;
 
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         animator = gameObject.GetComponent<Animator>();
     }
 
     void OnAnimatorIK(int layerIndex)
     {
-        Debug.Log(timer);
-        
-        timer += Input.GetAxisRaw("Mouse Y");
-        timer = timer < 3 ? timer : 3;
-        timer = timer > -8 ? timer : -8;
-
-        progress = timer * 0.02f;
-        Vector3 toPos = animator.GetIKPosition(AvatarIKGoal.RightHand);
         animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
-        animator.SetIKPosition(AvatarIKGoal.RightHand, toPos + Vector3.up * progress);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
+
+        animator.SetIKPosition(AvatarIKGoal.RightHand, handPos.position);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, handPos.rotation);
     }
 }
